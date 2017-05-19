@@ -1,6 +1,6 @@
 
 	
-function CalculateC (l,w,k){ //вычисление групповой скорости для данного волногого вектора
+$.CalculateC = function(l,w,kk){ //вычисление групповой скорости для данного волногого вектора
 		//k = new Vector;
 		//k.x = 0.9656;
 		//k.y = 0.26;
@@ -32,15 +32,15 @@ a[6] = new Vector;
 	SumChislitel.x = 0;
 	SumChislitel.y = 0;
 	SumZnamenatel = 6;
-	for (i=1;i<7;i++){
-		arg = ALG.VectScalIncr(k,a[i]);
-		alfa = ALG.VectNumbIncr(a[i],Math.sin(arg)*w/2);
+	for (ii=1;ii<7;ii++){
+		arg = ALG.VectScalIncr(kk,a[ii]);
+		alfa = ALG.VectNumbIncr(a[ii],Math.sin(arg)*w*0.5);
 		SumChislitel = 	ALG.Vectsum(alfa,SumChislitel);
 		SumZnamenatel = SumZnamenatel-Math.cos(arg);
 	};
-	Znamenatel = 1/Math.sqrt(SumZnamenatel);
+	Znamenatel = 1.0/Math.sqrt(SumZnamenatel);
 	var c = ALG.VectNumbIncr(SumChislitel,Znamenatel);
 	return c;
-	//console.log(c);
+	//console.log(c); посмотреть let
 };
 
