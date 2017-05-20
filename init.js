@@ -4,9 +4,11 @@ $.init = function(){
 	Length = 100;
 	T1 = 290;
 	T2 = 310;
+	alfa = 0.25* Math.PI;
+	alert(alfa);
 	direction = new Vector;
-	direction.x = 1;
-	direction.y = 0;
+	direction.x = Math.cos(alfa);
+	direction.y = Math.sin(alfa);
 	detalisation = 10;// - кол-во разбиений при интегрировании
 	l = 2;
 	w = 1;
