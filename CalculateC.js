@@ -12,7 +12,7 @@ a[2] = new Vector;
 a[3] = new Vector;
 a[4] = new Vector;
 a[5] = new Vector;
-a[6] = new Vector;
+a[6] = new Vector; // создание векторов к соседям в кристаллической решетке
 
 	a[1].x = l;
 	a[1].y = 0;
