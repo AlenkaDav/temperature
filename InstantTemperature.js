@@ -1,6 +1,6 @@
-$.InstantTemperature = function (n,time,Length,T1,T2,direction,detalisation,l,w,Radius,Circle){ // n - число детализации
+$.InstantTemperature = function (n,time,Length,T1,T2,direction,detalisation,l,w,Radius,Circle,h){ // n - число детализации
 	T = [];//двумернй массив температуры от координаты
-	var h = Length/n; //шаг детализации
+	//var h = Length/n; //шаг детализации
 	var r = new Vector;
 	TempDiap = Math.abs(T1-T2)*1.2; //диапазон температур (немного расширен, на всякий случай)
 	OTempDiap = 1/TempDiap;

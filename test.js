@@ -2,45 +2,37 @@
 //console.log(T); // получаем массив температур
 var scene = new THREE.Scene();
 var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
-camera.position.z = 100;
+camera.position.z = 80;
 
 var renderer = new THREE.WebGLRenderer({ alpha: true });
 renderer.setSize( window.innerWidth, window.innerHeight );
 document.body.appendChild( renderer.domElement );
 
 //var col = chroma.scale(['yellow', 'red']).domain([0,T2+0.1*T2]);
-
-var controls = new function(){
+var _n = 40;
+var _time = 20;
+var _Length = 100;
+var _T1 = 200;
+var _T2 = 300; 
+var _alfa = 0.25;
+var _Radius = 20;
+var _Circle = true;
+  
+  var controls = new function(){
 	//this.n = 50; //40
-	this.time = 20;
-	this.Length = 100;
-	this.T1 = 100;
-	this.T2 = 310;
-	this.alfa = 0.4* Math.PI;
-	this.detalisation = 20;// - кол-во разбиений при интегрировании
+	this.time = _time;
+	this.Length = _Length;
+	this.T1 = _T1;
+	this.T2 = _T2;
+	this.alfa = _alfa;
+	//this.detalisation = 20;// - кол-во разбиений при интегрировании
 	//l = 2;
 	//w = 1;
-	this.Radius = 15;
-	this.Circle = true;
+	this.Radius = _Radius;
+	this.Circle = _Circle;
+	//alert(Radius);
 	};
-	document.getElementById('elem').onclick = function() {
- //button.onclick = function OnClick() { //OnClick;
-
-    cube.rotation.x += controls.rotationSpeed;
-	_n += controls.n 
-	_time += controls.time;
-	_Length += controls.Length;
-	_T1 += controls.T1;
-	_T2 += controls.T2;
-	_alfa += controls.direction;
 	
-	//detalisation = 20;// - кол-во разбиений при интегрировании
-	//l = 2;
-	//w = 1;
-	_Radius += controls.Radius;
-	_Circle += controls.Circle;
-	UD(_n, _time, _T1, _T2, _Length, _Radius, _Circle,_alfa);
-  };
   
   var gui = new dat.GUI();
   
@@ -48,43 +40,45 @@ var controls = new function(){
   f1.add(controls, 'Radius',0,40);
 
   var f2 = gui.addFolder('Flat wave front');
-  f2.add(controls, 'direction',0,2);
+  f2.add(controls, 'alfa',0,2);
  // f2.add(controls, 'maxSize');
  // f2.add(controls, 'message');
 
   var f3 = gui.addFolder('PARAMETERS');
   f3.add(controls,'T1',0,500);
   f3.add(controls,'T2',0,500);
-  f3.add(controls,'Length',0,300);
+  //f3.add(controls,'Length',0,300);
   f3.add(controls,'time',0,60);
   f3.add(controls,'Circle');
   
-  
-function UD(_n, _time, _T1, _T2, _Length, _Radius, _Circle, _alfa){
+function UD( _time, _T1, _T2, _Length, _Radius, _Circle, _alfa){
+	
 	n = _n; // число разбиений в плоскости
 	L = _Length; // длина и ширина
 	T1 = _T1;
 	T2 = _T2;
 	h = L/n;
-	T = $.init(_n, _time, _T1, _T2, _Length, _Radius, _Circle, _alfa)
-	
+	//alert(_n+' '+ _time+' '+ _T1+' '+ _T2+' '+ _Length+' '+ _Radius+' '+ _Circle+' '+ _alfa);
+	T = $.init(_n, _time, _T1, _T2, _Length, _Radius, _Circle, _alfa,h)
 	scene.remove(MyMesh);
-	
-	//var vertexIndex, colour, f,p;
+	//console.log(T);
+	var vertexIndex, colour, f,p;
 	var faceIndices = [ 'a', 'b', 'c' ];
 	
 	var geometry = new THREE.PlaneGeometry(L,L,n,n);
 	//alert(geometry.faces.length);
-	for ( var i = 0; i < geometry.faces.length; i ++ ) {
-				f  = geometry.faces[ i ];
-				for( var j = 0; j < 3; j++ ) {
-						vertexIndex = f[ faceIndices[ j ] ];
+	for ( var I = 0; I < geometry.faces.length; I++ ) {
+				f  = geometry.faces[ I ];
+				for( var J = 0; J < 3; J++ ) { 
+						vertexIndex = f[ faceIndices[ J ] ];
 						p = geometry.vertices[ vertexIndex ];
+						//console.log(geometry.faces[0]);
 						nx = (p.x+0.5*L)/h; //координата вершины по x
-						ny = (p.y+0.5*L)/h;
+						ny = p.y/h+0.5*L/h;
 						COLOR = T[nx][ny];
+						//alert(p.y+' ' +h+' '+0.5*L/h+'  '+ny);
 						colour = new THREE.Color(COLOR,0,1-COLOR);
-						f.vertexColors[ j ] = colour;
+						f.vertexColors[ J ] = colour;
 				}
 	}	
 	//COLOR= col(T[1][1]);
@@ -94,7 +88,28 @@ function UD(_n, _time, _T1, _T2, _Length, _Radius, _Circle, _alfa){
 				
 	scene.add( MyMesh );
 	render();
+	 
+  document.getElementById('elem').onclick = OnClick; 
 }
+
+function OnClick() { //OnClick;
+	var _time = controls.time;
+	var _Length = controls.Length;
+	var _T1 = controls.T1;
+	var _T2 = controls.T2;
+	var _alfa = controls.alfa;
+	
+	//detalisation = 20;// - кол-во разбиений при интегрировании
+	//l = 2;
+	//w = 1;
+	//alert(_time);
+	var _Radius = controls.Radius;
+	var _Circle = controls.Circle;
+	UD ( _time, _T1, _T2, _Length, _Radius, _Circle,_alfa);
+  };
+  
+  window.onload = OnClick;
+  
 				
 	var render = function () {
 		requestAnimationFrame(render);

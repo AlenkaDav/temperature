@@ -4,8 +4,8 @@ $.IntegrateCircle = function (r,time,T1,T2,direction,detalisation,l,w,Radius){
 	k = new Vector;
 	c = new Vector;
 	k.x = -3.14;
-	h = 6.28/d; //величина шага интегрирования
-	dS = h*h;
+	H = 6.28/d; //величина шага интегрирования
+	dS = H*H;
 	sum = 0;
 	r1 = new Vector;
 	r2 = new Vector;
@@ -27,9 +27,9 @@ $.IntegrateCircle = function (r,time,T1,T2,direction,detalisation,l,w,Radius){
 					dSum2 = T1*dS;
 				}
 				sum = sum + dSum1 + dSum2; 
-				k.y = k.y + h;
+				k.y = k.y + H;
 			}/**/
-			k.x = k.x + h;
+			k.x = k.x + H;
 		}
 		sum = sum/(8*Math.PI*Math.PI);
 		return sum;
