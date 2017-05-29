@@ -9,7 +9,7 @@ renderer.setSize( window.innerWidth, window.innerHeight );
 document.body.appendChild( renderer.domElement );
 
 //var col = chroma.scale(['yellow', 'red']).domain([0,T2+0.1*T2]);
-var _n = 40;
+var _n = 80;
 var _time = 20;
 var _Length = 100;
 var _T1 = 200;
@@ -17,6 +17,7 @@ var _T2 = 300;
 var _alfa = 0.25;
 var _Radius = 20;
 var _Circle = true;
+var _triang = false;
   
   var controls = new function(){
 	//this.n = 50; //40
@@ -30,6 +31,7 @@ var _Circle = true;
 	//w = 1;
 	this.Radius = _Radius;
 	this.Circle = _Circle;
+	this.triang = _triang;
 	//alert(Radius);
 	};
 	
@@ -50,8 +52,9 @@ var _Circle = true;
   //f3.add(controls,'Length',0,300);
   f3.add(controls,'time',0,60);
   f3.add(controls,'Circle');
+  f3.add(controls,'triang');
   
-function UD( _time, _T1, _T2, _Length, _Radius, _Circle, _alfa){
+function UD( _time, _T1, _T2, _Length, _Radius, _Circle, _alfa,_triang){
 	
 	n = _n; // число разбиений в плоскости
 	L = _Length; // длина и ширина
@@ -59,7 +62,7 @@ function UD( _time, _T1, _T2, _Length, _Radius, _Circle, _alfa){
 	T2 = _T2;
 	h = L/n;
 	//alert(_n+' '+ _time+' '+ _T1+' '+ _T2+' '+ _Length+' '+ _Radius+' '+ _Circle+' '+ _alfa);
-	T = $.init(_n, _time, _T1, _T2, _Length, _Radius, _Circle, _alfa,h)
+	T = $.init(_n, _time, _T1, _T2, _Length, _Radius, _Circle, _alfa,h,_triang)
 	scene.remove(MyMesh);
 	//console.log(T);
 	var vertexIndex, colour, f,p;
@@ -105,7 +108,8 @@ function OnClick() { //OnClick;
 	//alert(_time);
 	var _Radius = controls.Radius;
 	var _Circle = controls.Circle;
-	UD ( _time, _T1, _T2, _Length, _Radius, _Circle,_alfa);
+	var _triang = controls.triang;
+	UD ( _time, _T1, _T2, _Length, _Radius, _Circle,_alfa, _triang);
   };
   
   window.onload = OnClick;

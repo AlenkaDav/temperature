@@ -1,4 +1,4 @@
-$.IntegrateCircle = function (r,time,T1,T2,direction,detalisation,l,w,Radius){
+$.IntegrateCircle = function (r,time,T1,T2,direction,detalisation,l,w,Radius,triang){
 	d = detalisation; // количество отрезков, на которое разбиваем при взятии интеграла
 	// все расстояния в ангстремах
 	k = new Vector;
@@ -12,7 +12,11 @@ $.IntegrateCircle = function (r,time,T1,T2,direction,detalisation,l,w,Radius){
 		for (mm=0; mm<d; mm++){
 			k.y = -3.14;
 			for (oo=0; oo<d; oo++){
-				c = $.CalculateC (l,w,k);//вычисление вектора групповой скорости
+				if (triang != true){
+					c = $.CalculateCSquare (l,w,k);//вычисление вектора групповой скорости
+				} else {
+					c = $.CalculateC(l,w,k);
+				};
 				ct = ALG.VectNumbIncr(c,time);
 				r1 = ALG.Vectsum(r,ct);
 				r2 = ALG.VectDecreace(r,ct);
