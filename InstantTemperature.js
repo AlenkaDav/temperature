@@ -1,4 +1,5 @@
-$.InstantTemperature = function (n,time,Length,T1,T2,direction,detalisation,l,w,Radius,Circle,h,triang){ // n - число детализации
+
+$.InstantTemperature = function (n,time,Length,T1,T2,direction,detalisation,l,w,Radius,Circle,h,triang,C){ // n - число детализации
 	T = [];//двумернй массив температуры от координаты
 	//var h = Length/n; //шаг детализации
 	var r = new Vector;
@@ -14,7 +15,7 @@ $.InstantTemperature = function (n,time,Length,T1,T2,direction,detalisation,l,w,
 			if (Circle == true){
 				T[i][j] = $.IntegrateCircle(r,time,T1,T2,direction,detalisation,l,w, Radius,triang)//-LowTemp)*OTempDiap);
 			} else {
-				T[i][j] = $.Integrate(r,time,T1,T2,direction,detalisation,l,w,triang);//-LowTemp)*OTempDiap);
+				T[i][j] = $.Integrate(r,time,T1,T2,direction,detalisation,l,w,triang,C);//-LowTemp)*OTempDiap);
 			}
 			if (T[i][j] >MaxTemp){
 				MaxTemp = T[i][j];

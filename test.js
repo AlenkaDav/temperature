@@ -8,16 +8,19 @@ var renderer = new THREE.WebGLRenderer({ alpha: true });
 renderer.setSize( window.innerWidth, window.innerHeight );
 document.body.appendChild( renderer.domElement );
 
-//var col = chroma.scale(['yellow', 'red']).domain([0,T2+0.1*T2]);
+var ColScale = chroma.scale(['red', 'yellow', 'white']);
 var _n = 80;
-var _time = 20;
+var _time = 40;
 var _Length = 100;
 var _T1 = 200;
 var _T2 = 300; 
 var _alfa = 0.25;
 var _Radius = 20;
-var _Circle = true;
-var _triang = false;
+var _Circle = false;
+var _triang = true;
+var detalisation = 20;
+	l = 2;
+	w = 1;
   
   var controls = new function(){
 	//this.n = 50; //40
@@ -62,12 +65,17 @@ function UD( _time, _T1, _T2, _Length, _Radius, _Circle, _alfa,_triang){
 	T2 = _T2;
 	h = L/n;
 	//alert(_n+' '+ _time+' '+ _T1+' '+ _T2+' '+ _Length+' '+ _Radius+' '+ _Circle+' '+ _alfa);
-	T = $.init(_n, _time, _T1, _T2, _Length, _Radius, _Circle, _alfa,h,_triang)
+	if (_triang == true){
+		C = $.CalculateArrC(l,w,detalisation);
+	} else {
+		C = $.CalculateArrCSquare(l,w,detalisation);
+	}
+	T = $.init(_n, _time, _T1, _T2, _Length, _Radius, _Circle, _alfa,h,_triang,C,detalisation)
 	scene.remove(MyMesh);
 	//console.log(T);
 	var vertexIndex, colour, f,p;
 	var faceIndices = [ 'a', 'b', 'c' ];
-	
+	var Txy;
 	var geometry = new THREE.PlaneGeometry(L,L,n,n);
 	//alert(geometry.faces.length);
 	for ( var I = 0; I < geometry.faces.length; I++ ) {
@@ -78,10 +86,28 @@ function UD( _time, _T1, _T2, _Length, _Radius, _Circle, _alfa,_triang){
 						//console.log(geometry.faces[0]);
 						nx = (p.x+0.5*L)/h; //координата вершины по x
 						ny = p.y/h+0.5*L/h;
-						COLOR = T[nx][ny];
-						//alert(p.y+' ' +h+' '+0.5*L/h+'  '+ny);
-						colour = new THREE.Color(COLOR,0,1-COLOR);
+						Txy = T[nx][ny];
+						
+						 var COLOR = ColScale(Txy);
+						COLOR = String(COLOR);
+						//alert (COLOR);
+						/*function hex2rgb(hex) {
+							return (function (v) {
+							return [v >> 16 & 255, v >> 8 & 255, v & 255];
+							})(parseInt(hex, 16));
+						}*/
+						//console.log(COLOR)
+						function HexTo_R(h) { return parseInt((cut_Hex(h)).substring(0, 2), 16) };
+						function HexTo_G(h) { return parseInt((cut_Hex(h)).substring(2, 4), 16) };
+						function HexTo_B(h) { return parseInt((cut_Hex(h)).substring(4, 6), 16) };
+						function cut_Hex(h) { return h.substring(1, 7)};
+							
+						colour = new THREE.Color(HexTo_R(COLOR),HexTo_G(COLOR), HexTo_B(COLOR));//hex2rgb(COLOR);
+						//colour = new THREE.Color;//(COLOR,0,1-COLOR);
+						//colour = COLOR;
+						console.log(colour)
 						f.vertexColors[ J ] = colour;
+
 				}
 	}	
 	//COLOR= col(T[1][1]);

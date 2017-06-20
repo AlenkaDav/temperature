@@ -1,4 +1,4 @@
-$.Integrate = function (r,time,T1,T2,direction,detalisation,l,w,triang) { //direction - вектор направления теплового фронта от Т1 к Т2
+$.Integrate = function (r,time,T1,T2,direction,detalisation,l,w,triang,C) { //direction - вектор направления теплового фронта от Т1 к Т2
 	//alert(r+' '+time+' '+T1+' '+T2+' '+direction+' '+detalisation+' '+l+' '+w);
 	d = detalisation; // количество отрезков, на которое разбиваем при взятии интеграла
 	// все расстояния в ангстремах
@@ -10,15 +10,10 @@ $.Integrate = function (r,time,T1,T2,direction,detalisation,l,w,triang) { //dire
 	sum = 0;
 	r1 = new Vector;
 	r2 = new Vector;
-		for (m=0; m<d; m++){
+		for (var m=0; m<d; m++){
 			k.y = -3.14;
-			for (o=0; o<d; o++){
-				if (triang == true){
-					c = $.CalculateC (l,w,k);//вычисление вектора групповой скорости
-				} else {
-					c = $.CalculateCSquare(l,w,k);
-				}
-				
+			for (var o=0; o<d; o++){
+				c = C[m][o];//вычисление вектора групповой скорости
 				ct = ALG.VectNumbIncr(c,time);
 				r1 = ALG.Vectsum(r,ct);
 				r2 = ALG.VectDecreace(r,ct);
