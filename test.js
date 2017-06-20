@@ -79,8 +79,23 @@ function UD( _time, _T1, _T2, _Length, _Radius, _Circle, _alfa,_triang){
 						nx = (p.x+0.5*L)/h; //координата вершины по x
 						ny = p.y/h+0.5*L/h;
 						COLOR = T[nx][ny];
+						var r, g, b;
+						r = 1;
+						if (COLOR <1/3) {
+							r = COLOR;
+							g = 0;
+							b = 0;
+						} else if (COLOR <2/3){
+							r = 1;
+							g = COLOR;
+							b = 0;
+						} else{
+							r = 1;
+							g = 1;
+							b = COLOR;
+						}
 						//alert(p.y+' ' +h+' '+0.5*L/h+'  '+ny);
-						colour = new THREE.Color(COLOR,0,1-COLOR);
+						colour = new THREE.Color(r,g,b);//(COLOR,0,1-COLOR);
 						f.vertexColors[ J ] = colour;
 				}
 	}	
