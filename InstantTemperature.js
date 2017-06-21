@@ -13,7 +13,7 @@ $.InstantTemperature = function (n,time,Length,T1,T2,direction,detalisation,l,w,
 		for (var j=0; j<n+1; j++){
 			r.y = (j*h - (Length/2));
 			if (Circle == true){
-				T[i][j] = $.IntegrateCircle(r,time,T1,T2,direction,detalisation,l,w, Radius,triang)//-LowTemp)*OTempDiap);
+				T[i][j] = $.IntegrateCircle(r,time,T1,T2,direction,detalisation,l,w, Radius,triang,C)//-LowTemp)*OTempDiap);
 			} else {
 				T[i][j] = $.Integrate(r,time,T1,T2,direction,detalisation,l,w,triang,C);//-LowTemp)*OTempDiap);
 			}
